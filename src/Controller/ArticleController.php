@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\service\MarkdownHelper;
+use App\service\SlackClient;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ class ArticleController extends AbstractController
 
     public function __construct(bool $isDebug)
     {
-        dump($isDebug);die;
+       $this->isDebug = $isDebug;
     }
     
     /**
@@ -30,8 +31,12 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show($slug, MarkdownHelper $markdownHelper)
+    public function show($slug, MarkdownHelper $markdownHelper, SlackClient $slack)
     {
+        if ($slug =='khaan'){
+            $slack->sendMessage('Khan', 'Ah kirk');
+        }
+
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
             'Woohoo! I\'m going on an all-asteroid diet!',
