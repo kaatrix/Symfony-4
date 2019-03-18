@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 /**
- * @ISGranted("ROLE_ADMIN")
+ * @ISGranted("ROLE_ADMIN_COMMENT")
  */
 class CommentAdminController extends AbstractController
 {
