@@ -32,7 +32,7 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 2592000
-            
+
             switch_user: true
 
             # activate different ways to authenticate
