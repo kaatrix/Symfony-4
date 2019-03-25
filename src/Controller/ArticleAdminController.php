@@ -21,14 +21,10 @@ class ArticleAdminController extends AbstractController
     public function new(EntityManagerInterface $em, Request $request)
     {
         $form = $this->createForm(ArticleFormType::class);
-
+        /** @var Article $article */
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $article = new Article();
-            $article->setTitle($data['title']);
-            $article->setContent($data['content']);
-            $article->setAuthor($this->getUser());
+            $article = $form->getData();
 
             $em->persist($article);
             $em->flush();
