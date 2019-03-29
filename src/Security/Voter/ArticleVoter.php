@@ -14,7 +14,7 @@ class ArticleVoter extends Voter
 
     public function __construct(Security $security)
     {
-        $this->secury = $security;
+        $this->security = $security;
     }
 
     protected function supports($attribute, $subject)
