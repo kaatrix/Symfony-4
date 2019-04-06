@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use App\Form\Model\UserRegistrationFormModel;
 
 class UserRegistrationFormType extends AbstractType
 {
@@ -20,33 +21,15 @@ class UserRegistrationFormType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             // don't use password, avoid EVER setting that on a field that might be persisted
-            ->add('plainPassword', PasswordType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'choose a password'
-                    ]),
-                    new Length([
-                        'min' => 5,
-                        'minMessage' => 'password must be longer'
-                    ])
-                ]
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You must agree to our terms'
-                    ])
-                ]
-            ])
+            ->add('plainPassword', PasswordType::class)
+            ->add('agreeTerms', CheckboxType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => UserRegistrationFormModel::class
         ]);
     }
 }

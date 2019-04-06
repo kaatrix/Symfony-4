@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\ArticleRepository;
 
 class ArticleFormType extends AbstractType
 {
@@ -22,22 +23,33 @@ class ArticleFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $article = $options['data'] ?? null;
+        $isEdit = $article && $article->getId();
+
         $builder
             ->add('title', TextType::class, [
                 'help' => 'Choose smetihng catchy',
             ])
-            ->add('content')
-            ->add('publishedAt', null, [
-                'widget' => 'single_text'
+            ->add('content', null, [
+                'rows' => 15
             ])
-            ->add('author', UserSelectTextType::class)
+            ->add('author', UserSelectTextType::class, [
+                'disabled' => $isEdit
+            ])
         ;
+
+        if ($options['include_published_at']) {
+            $builder->add('publishedAt', null, [
+                'widget' => 'single_text'
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Article::class
+            'data_class' => Article::class,
+            'include_published_at' => false,
         ]);
     }
 }
